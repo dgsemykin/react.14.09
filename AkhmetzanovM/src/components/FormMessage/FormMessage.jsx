@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { IconButton, InputAdornment, OutlinedInput, TextField, withStyles } from '@material-ui/core';
+import { IconButton, InputAdornment, OutlinedInput, withStyles } from '@material-ui/core';
 import { Send } from '@material-ui/icons';
 
 const styles = (theme) => ({
@@ -10,9 +10,9 @@ const styles = (theme) => ({
     padding: theme.spacing(2),
     bottom: 0,
     position: 'fixed',
-    marginLeft: 240,
+    marginLeft: 300,
     boxSizing: 'border-box',
-    width: `calc(100% - 240px)`,
+    width: 'calc(100% - 300px)',
   },
 });
 
@@ -31,7 +31,6 @@ class FormMessage extends Component {
    * @param inputEl
    */
   onInputChange = (inputEl) => {
-    const { messageText } = this.state;
     this.setState({ messageText: inputEl.target.value });
   };
 
@@ -51,7 +50,7 @@ class FormMessage extends Component {
     const { addMessage } = this.props;
     const { messageText } = this.state;
 
-    addMessage(messageText);
+    messageText && addMessage(messageText);
 
     this.setState({
       messageText: '',
