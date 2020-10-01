@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { Box, makeStyles } from '@material-ui/core';
+import { Box, makeStyles, Typography } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Message from '../Message';
@@ -40,9 +40,13 @@ const MessageList = ({ messages }) => {
 
   return (
     <Box ref={listRef} component="ul" className={classes.list}>
-      {messages.map(({ id, author, message }) => (
-        <Message key={id} author={author} message={message} />
-      ))}
+      {messages.length ? (
+        messages.map(({ id, author, message }) => (
+          <Message key={id} author={author} message={message} />
+        ))
+      ) : (
+        <Typography>Здесь ещё нет сообщений</Typography>
+      )}
     </Box>
   );
 };

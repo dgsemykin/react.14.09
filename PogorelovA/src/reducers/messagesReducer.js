@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { v4 as uuidv4 } from 'uuid';
 import { BOT_NAME } from '../utils/constants';
 
 export const messagesSlice = createSlice({
@@ -34,5 +35,19 @@ export const messagesSlice = createSlice({
 });
 
 export const { addMessage } = messagesSlice.actions;
+
+export const asyncAddMessage = payload => (dispatch, getState) => {
+  const { author, chatId } = payload;
+
+  if (author !== BOT_NAME) {
+    setTimeout(() => {
+      dispatch(
+        addMessage({ author: BOT_NAME, message: 'Привет от бота', chatId, id: uuidv4() }),
+      );
+    }, 500);
+  }
+
+  dispatch(addMessage(payload));
+};
 
 export default messagesSlice.reducer;

@@ -1,5 +1,5 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import logger from 'redux-logger';
+// import logger from 'redux-logger';
 import chatsReducer from '../reducers/chatReducer';
 import messagesReducer from '../reducers/messagesReducer';
 import profileReducer from '../reducers/profileReducer';
@@ -19,5 +19,5 @@ export default configureStore({
     messages: messagesReducer,
     profile: profileReducer,
   },
-  middleware: [botAnswer, ...getDefaultMiddleware(), logger],
+  middleware: [...getDefaultMiddleware()],
 });
