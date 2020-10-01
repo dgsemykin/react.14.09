@@ -23,6 +23,7 @@ export const messagesSlice = createSlice({
       },
     },
     ids: [1, 2, 3],
+    active: [],
   },
   reducers: {
     addMessage(state, action) {
@@ -31,10 +32,16 @@ export const messagesSlice = createSlice({
       state.byIds[id] = { id, author, message };
       state.ids.push(id);
     },
+    addNewMessageId(state, { payload }) {
+      state.active.push(payload);
+    },
+    deleteNewMessageId(state, { payload }) {
+      state.active = state.active.filter(i => i !== payload);
+    },
   },
 });
 
-export const { addMessage } = messagesSlice.actions;
+export const { addMessage, addNewMessageId, deleteNewMessageId } = messagesSlice.actions;
 
 export const asyncAddMessage = payload => (dispatch, getState) => {
   const { author, chatId } = payload;
