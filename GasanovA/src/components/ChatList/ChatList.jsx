@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Button,
   Divider,
   Drawer,
   IconButton,
@@ -15,7 +16,8 @@ import PeopleIcon from '@material-ui/icons/People';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import cn from 'classnames';
 import { Link, NavLink } from 'react-router-dom';
-import mockChats from './mockChats';
+import { useDispatch, useSelector } from 'react-redux';
+import { addChatToState } from '../../actions/chatActions';
 
 const useStyles = makeStyles(theme => ({
   drawerPaper: {
@@ -26,6 +28,17 @@ const useStyles = makeStyles(theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
+  },
+  drawerPaperClose: {
+    overflowX: 'hidden',
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    width: theme.spacing(7),
+    [theme.breakpoints.up('sm')]: {
+      width: theme.spacing(9),
+    },
   },
   toolbarIcon: {
     display: 'flex',
@@ -44,33 +57,44 @@ const useStyles = makeStyles(theme => ({
 
 const ChatList = () => {
   const classes = useStyles();
+  const [open, setOpen] = React.useState(true);
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
+  const chats = useSelector(store => store.chats.byIds);
+  const dispatch = useDispatch();
+  const addChat = () => {
+    dispatch(addChatToState());
+  };
 
   return (
     <Drawer
       variant="permanent"
       classes={{
-        paper: cn(classes.drawerPaper),
+        paper: cn(classes.drawerPaper, !open && classes.drawerPaperClose),
       }}
-      open
+      open={open}
     >
       <div className={classes.toolbarIcon}>
-        <IconButton>
+        <IconButton onClick={handleDrawerClose}>
           <ChevronLeftIcon />
         </IconButton>
       </div>
       <Divider />
       <List>
-        {mockChats.map(({ id, name }) =>(
+        {Object.values(chats).map(({ id, tittle }) =>(
           <NavLink key={id} to={`/chats/${id}`} activeClassName={classes.active}>
             <ListItem button>
               <ListItemIcon>
                 <PeopleIcon />
               </ListItemIcon>
-              <ListItemText primary={name} />
+              <ListItemText primary={tittle} />
             </ListItem>
           </NavLink>
         ))}
       </List>
+      <Button onClick={addChat}>add chats</Button>
       <Divider className={classes.secondList} />
       <List>
         <ListSubheader inset>Saved reports</ListSubheader>

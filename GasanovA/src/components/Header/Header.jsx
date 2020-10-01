@@ -3,6 +3,8 @@ import cn from 'classnames';
 import { AppBar, Badge, IconButton, makeStyles, Toolbar, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -36,7 +38,14 @@ const useStyles = makeStyles(theme => ({
 
 const Header = () => {
   const classes = useStyles();
+  const [open, setOpen] = React.useState(true);
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
 
+  const chats = useSelector(store => store.chats.byIds);
+  const { id } = useParams();
+  console.log(chats[id].tittle);
   return (
     <AppBar position="absolute" className={cn(classes.appBar, classes.appBarShift)}>
       <Toolbar className={classes.toolbar}>
@@ -44,7 +53,8 @@ const Header = () => {
           edge="start"
           color="inherit"
           aria-label="open drawer"
-          className={cn(classes.menuButton, classes.menuButtonHidden)}
+          onClick={handleDrawerOpen}
+          className={cn(classes.menuButton, open && classes.menuButtonHidden)}
         >
           <MenuIcon />
         </IconButton>
@@ -56,6 +66,15 @@ const Header = () => {
           className={classes.title}
         >
           Dashboard
+        </Typography>
+        <Typography
+          component="h1"
+          variant="h6"
+          color="inherit"
+          noWrap
+          className={classes.title}
+        >
+          {`${chats[id].tittle}`}
         </Typography>
         <IconButton color="inherit">
           <Badge badgeContent={4} color="secondary">
