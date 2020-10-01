@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { BOT_NAME } from '../utils/constants';
 
 export const messagesSlice = createSlice({
   name: 'messages',
@@ -6,17 +7,17 @@ export const messagesSlice = createSlice({
     byIds: {
       1: {
         id: 1,
-        author: 'Bot',
+        author: BOT_NAME,
         message: 'Привет от бота',
       },
       2: {
         id: 2,
-        author: 'Bot',
+        author: BOT_NAME,
         message: 'Давай поболтаем',
       },
       3: {
         id: 3,
-        author: 'Bot',
+        author: BOT_NAME,
         message: 'Давай поболтаем, я в третьем чате',
       },
     },
