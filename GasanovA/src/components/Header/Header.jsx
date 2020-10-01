@@ -45,7 +45,13 @@ const Header = () => {
 
   const chats = useSelector(store => store.chats.byIds);
   const { id } = useParams();
-  console.log(chats[id].tittle);
+  const page = (id, chats) => {
+    if ([id] in chats) {
+      return `${chats[id].tittle}`;
+    } return 'Чат';
+  }
+  console.log(id);
+  console.log(chats);
   return (
     <AppBar position="absolute" className={cn(classes.appBar, classes.appBarShift)}>
       <Toolbar className={classes.toolbar}>
@@ -74,7 +80,7 @@ const Header = () => {
           noWrap
           className={classes.title}
         >
-          {`${chats[id].tittle}`}
+          {page(id, chats)}
         </Typography>
         <IconButton color="inherit">
           <Badge badgeContent={4} color="secondary">
