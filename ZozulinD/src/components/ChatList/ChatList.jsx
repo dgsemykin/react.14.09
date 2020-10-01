@@ -22,7 +22,6 @@ const useStyles = makeStyles({
 
 const ChatList = () => {
   const classes = useStyles();
-
   const chats = useSelector(state => state.messages.chats);
 
   return (
