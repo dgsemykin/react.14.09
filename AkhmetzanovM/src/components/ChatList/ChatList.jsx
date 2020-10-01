@@ -13,7 +13,8 @@ import {
 } from '@material-ui/core';
 import { NavLink } from 'react-router-dom';
 import { AccountCircle } from '@material-ui/icons';
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { addChatToState } from '../../actions/chatAction';
 
 const useStyles = makeStyles((theme) => ({
   drawerPaper: {
@@ -50,8 +51,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ChatList = ({ chatList, addChat }) => {
+const ChatList = () => {
   const classes = useStyles();
+
+  const chatList = useSelector((store) => store.chats.chatList);
+  const dispatch = useDispatch();
+
+  const addChat = () => {
+    dispatch(addChatToState());
+  };
 
   return (
     <Drawer
@@ -65,7 +73,7 @@ const ChatList = ({ chatList, addChat }) => {
         <OutlinedInput type="search" className={classes.search} placeholder="Найти чат" />
       </div>
       <List className={classes.list}>
-        {chatList.map(({ id, title }) => (
+        {Object.values(chatList).map(({ id, title }) => (
           <ListItem button key={id} component={NavLink} to={`/chat/${id}`} activeClassName="Mui-selected">
             <ListItemAvatar>
               <Avatar>{title[0]}</Avatar>
@@ -87,11 +95,6 @@ const ChatList = ({ chatList, addChat }) => {
       </List>
     </Drawer>
   );
-};
-
-ChatList.propTypes = {
-  chatList: PropTypes.array.isRequired,
-  addChat: PropTypes.func.isRequired,
 };
 
 export default ChatList;

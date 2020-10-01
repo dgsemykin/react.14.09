@@ -6,16 +6,20 @@
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
+    "@reduxjs/toolkit": "^1.4.0",
     "babel-loader": "^8.1.0",
     "classnames": "^2.2.6",
     "css-loader": "^4.3.0",
     "html-webpack-plugin": "^4.4.1",
+    "immer": "^7.0.9",
     "prettier": "^2.1.2",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-moment": "^0.9.7",
+    "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
+    "redux": "^4.0.5",
     "style-loader": "^1.2.1",
     "uuid": "^8.3.0",
     "webpack": "^4.44.1",
@@ -35,7 +39,7 @@
     "eslint-plugin-react-hooks": "^4.0.0"
   },
   "scripts": {
-    "build": "webpack --mode=production",
+    "build": "webpack-dev-server --mode=production",
     "start": "webpack-dev-server",
     "lint": "eslint --fix \"src/**/*.js?(x)\"",
     "test": "echo \"Error: no test specified\" && exit 1"

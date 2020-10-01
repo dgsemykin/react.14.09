@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { IconButton, InputAdornment, OutlinedInput, withStyles } from '@material-ui/core';
 import { Send } from '@material-ui/icons';
+import { connect } from 'react-redux';
+import { addMessageToState } from '../../actions/chatAction';
 
 const styles = (theme) => ({
   root: {
@@ -47,10 +49,10 @@ class FormMessage extends Component {
    */
   onSubmit = (event) => {
     event.preventDefault();
-    const { addMessage } = this.props;
     const { messageText } = this.state;
+    const { addMessageToState } = this.props;
 
-    messageText && addMessage(messageText);
+    messageText && addMessageToState(messageText);
 
     this.setState({
       messageText: '',
@@ -88,8 +90,17 @@ class FormMessage extends Component {
 }
 
 FormMessage.propTypes = {
-  addMessage: PropTypes.func.isRequired,
+  addMessageToState: PropTypes.func.isRequired,
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
-export default withStyles(styles)(FormMessage);
+const mapStateToProps = (state) => ({
+  chatList: state.chats.chatList,
+  messageList: state.chats.messageList,
+});
+
+const mapDispatchToProps = {
+  addMessageToState,
+};
+
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(FormMessage));

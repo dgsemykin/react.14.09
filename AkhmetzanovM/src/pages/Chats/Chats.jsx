@@ -1,24 +1,16 @@
 import React, { Component } from 'react';
 import { v4 } from 'uuid';
 import PropTypes from 'prop-types';
-
 import MessageList from '../../components/MessageList/MessageList';
 import FormMessage from '../../components/FormMessage';
 import Header from '../../components/Header';
 import Layout from '../../components/Layout';
 import ChatList from '../../components/ChatList/ChatList';
 import { Container } from '@material-ui/core';
+import { connect } from 'react-redux';
 
 class Chats extends Component {
   state = {
-    chatList: {
-      1: { id: 1, title: 'Chat 1', messageIdList: [1] },
-      2: { id: 2, title: 'Chat 2', messageIdList: [2] },
-    },
-    messageList: {
-      1: { id: 1, author: 'BOT', messageText: 'Тут никого нет' },
-      2: { id: 2, author: 'BOT', messageText: 'Тут тоже никого нет' },
-    },
     userName: 'Bob',
   };
 
@@ -33,46 +25,6 @@ class Chats extends Component {
     }
     return [];
   }
-
-  /**
-   * Получение списка чатов
-   */
-  get chatList() {
-    const { chatList } = this.state;
-    return Object.values(chatList);
-  }
-
-  /**
-   * Добавляет сообщение в общий список
-   * @param {String} message
-   */
-  addMessage = (messageText) => {
-    const { id } = this.props.match.params;
-    const newId = v4();
-
-    this.setState(({ chatList, messageList, userName }) => ({
-      chatList: {
-        ...chatList,
-        [id]: { ...chatList[id], messageIdList: [...chatList[id].messageIdList, newId] },
-      },
-      messageList: { ...messageList, [newId]: { id: newId, author: userName, messageText: messageText } },
-    }));
-  };
-
-  /**
-   * Добавляет новый пустой чат в список
-   */
-  addChat = () => {
-    const newId = v4();
-    console.log(this.state.chatList);
-
-    this.setState(({ chatList }) => ({
-      chatList: {
-        ...chatList,
-        [newId]: { id: newId, title: `New chat `, messageIdList: [] },
-      },
-    }));
-  };
 
   /**
    * Автоответ бота
@@ -104,17 +56,17 @@ class Chats extends Component {
   }
 
   render() {
-    const { userName, chatList } = this.state;
+    const { chatList } = this.props;
     const { id } = this.props.match.params;
-    const { addChat, addMessage } = this;
+
     return (
       <Layout>
-        <ChatList chatList={this.chatList} addChat={addChat} />
+        <ChatList />
         {id in chatList ? (
           <>
-            <Header chatTitle={chatList[id].title} />
-            <MessageList messageList={this.messageList} userName={userName} />
-            <FormMessage addMessage={addMessage} />
+            <Header currentChatId={id} />
+            <MessageList currentChatId={id} />
+            <FormMessage />
           </>
         ) : (
           <Container>
@@ -128,6 +80,13 @@ class Chats extends Component {
 
 Chats.propTypes = {
   match: PropTypes.objectOf(PropTypes.any).isRequired,
+  chatList: PropTypes.object.isRequired,
 };
 
-export default Chats;
+const mapStateToProps = (state) => ({
+  chatList: state.chats.chatList,
+});
+
+const mapDispatchToProps = {};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Chats);
