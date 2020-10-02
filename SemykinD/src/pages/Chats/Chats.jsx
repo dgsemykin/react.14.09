@@ -43,7 +43,7 @@ class Chats extends Component {
   };
 
   componentDidUpdate() {
-    const  lastMessages = this.messages;
+    const lastMessages = this.messages;
     if (lastMessages[lastMessages.length - 1]?.author !== 'Bot') {
       setTimeout(() => {
         this.addMessage({ author: 'Bot', message: 'Отстань от меня!' });
@@ -54,25 +54,26 @@ class Chats extends Component {
   get messages() {
     const { id } = this.props.match.params;
     const { chats, messages } = this.state;
-    if(id in chats) {
+    if (id in chats) {
       return chats[id].messageList.map(messId => messages[messId]);
     }
     return [];
   }
 
-  addMessage = ({author, message }) => {
+  addMessage = ({ author, message }) => {
     const { id } = this.props.match.params;
     const newId = uuidv4();
-    this.setState(({chats, messages}) => ({
+    this.setState(({ chats, messages }) => ({
       chats: {
         ...chats,
         [id]: { ...chats[id], messageList: [...chats[id].messageList, newId] },
       },
-      messages: { ...messages, [newId]: {id: newId, author, message } },
+      messages: { ...messages, [newId]: { id: newId, author, message } },
     }));
   };
 
   render() {
+    const { chats } = this.state;
     return (
       <Layout>
         <MessageList messages={this.messages} />
@@ -82,4 +83,13 @@ class Chats extends Component {
   }
 }
 
-export default withStyles(styles)(Chats);
+const mapStateToProps = (store) => ({
+  chatsFromRedux: store.chats,
+});
+
+const mapDispatchToProps = dispath => ({
+  addMessageToRedux
+});
+
+// export default withStyles(styles)(Chats);
+export default connect(mapStateToProps)(Chats);

@@ -18,10 +18,10 @@ ol {
 }
 
 .author-bot {
-  margin-right: auto;
+  align-self: flex-start;
 }
 
 .author {
   color: #12435a;
-  margin-left: auto;
+  align-self: flex-end;
 }

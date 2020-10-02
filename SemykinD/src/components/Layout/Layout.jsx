@@ -24,9 +24,7 @@ const Layout = ({ children, classes }) => {
     <div className={classes.root}>
       <Header />
       <ChatList />
-      <Container maxWidth="md" classes={{ root: classes.container }}>
-        {children}
-      </Container>
+      <Container classes={{ root: classes.messageField }}>{children}</Container>
     </div>
   );
 };

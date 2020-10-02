@@ -13,6 +13,7 @@ class Message extends Component {
       <Box
         p={2}
         m={1}
+        width="200px"
         borderRadius="8px"
         border="1px black solid"
         color="text.primary"
