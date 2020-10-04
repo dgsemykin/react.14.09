@@ -1,5 +1,6 @@
 import React from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
+import { useDispatch, useSelector } from 'react-redux';
 import Message from '../Message';
 
 const styles = theme => ({
@@ -9,11 +10,15 @@ const styles = theme => ({
     width: '70%',
     margin: theme.spacing(8),
     padding: theme.spacing(2),
-    position: 'relative'
+    position: 'relative',
   },
 });
 
-const MessageList = ({ messages, classes }) => {
+const MessageList = ({ classes, messages }) => {
+  // const {id} = useParams();
+  // const chats = useSelector(state => state.chats.dyIds);
+  // const messagesFromRedux = useSelector(state=> state.messages.byIds);
+  // const messages = (chats[id]?.messageList ?? []).map(idx => messagesFromRedux[idx])
   return (
     <ul className={classes.messageField}>
       {messages.map(({ id, author, message }) => (
@@ -23,4 +28,4 @@ const MessageList = ({ messages, classes }) => {
   );
 };
 
-export default withStyles(styles)(MessageList); 
+export default withStyles(styles)(MessageList);
