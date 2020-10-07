@@ -46,7 +46,6 @@ const ChatList = () => {
   const classes = useStyles();
 
   const chats = useSelector(store => store.chats.byIds);
-  console.log(chats);
   const dispatch = useDispatch();
 
   const addChat = () => {

@@ -28,23 +28,24 @@ class Chats extends Component {
   //     }, 1000);
   //   }
   // }
-  // get messages() {
-  //   const {
-  //     match: {
-  //       params: { id },
-  //     },
-  //     chats,
-  //     messages,
-  //   } = this.props;
-  //
-  //   if (id in chats) {
-  //     return chats[id].messageList.map(messId => messages[messId]);
-  //   }
-  //   return [];
-  // }
+  get messages() {
+    const {
+      match: {
+        params: { id },
+      },
+      chats,
+      messages,
+    } = this.props;
+
+    if (id in chats) {
+      return chats[id].messageList.map(messId => messages[messId]);
+    }
+    return [];
+  }
 
   addMessage = ({ author, message }) => {
     const { id } = this.props.match.params;
+    console.log(this.props);
     const newId = uuidv4();
     this.setState(({ chats, messages }) => ({
       chats: {
