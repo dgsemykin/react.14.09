@@ -8,6 +8,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography';
 import Badge from '@material-ui/core/Badge';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import { useSelector } from 'react-redux';
+import { getFullName } from '../../selectors/profileSelectors';
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -41,6 +43,7 @@ const useStyles = makeStyles(theme => ({
 
 const Header = () => {
   const classes = useStyles();
+  const fullName = useSelector(getFullName);
 
   return (
     <AppBar position="absolute" className={cn(classes.appBar, classes.appBarShift)}>
@@ -60,7 +63,7 @@ const Header = () => {
           noWrap
           className={classes.title}
         >
-          Dashboard
+          {`${fullName}'s chats`}
         </Typography>
         <IconButton color="inherit">
           <Badge badgeContent={4} color="secondary">

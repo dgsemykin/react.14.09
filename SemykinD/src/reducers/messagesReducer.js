@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { v4 as uuidv4 } from 'uuid';
 
 export const messagesSlice = createSlice({
-  name: 'message',
+  name: 'messages',
   initialState: {
     byIds: {
       1: {
@@ -20,9 +21,16 @@ export const messagesSlice = createSlice({
         message: 'ПиуПиу',
       },
     },
+    ids: [1, 2, 3]
   },
   reducers: {
-    addMessage(state, action) {},
+    addMessage(state, action) {
+      const newId = uuidv4();
+      const { id, author, message } = action.payload;
+
+      state.byIds[id] = {id, author, message};
+      state.ids.push(id);
+    },
   },
 });
 

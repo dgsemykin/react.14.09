@@ -7,6 +7,7 @@ import MessageList from '../../components/MessageList/MessageList';
 import Layout from '../../components/Layout';
 import { addMessageToState } from '../../actions/chatActions';
 import { addMessage } from '../../reducers/messagesReducer';
+import {getCurrentMessages} from "../../selectors/chatsSelectors";
 
 const styles = theme => ({
   messageField: {
@@ -28,39 +29,15 @@ class Chats extends Component {
   //     }, 1000);
   //   }
   // }
-  get messages() {
+  submitMessage = ({ author, message }) => {
     const {
+      addMessage,
       match: {
-        params: { id },
+        params: {id},
       },
-      chats,
-      messages,
     } = this.props;
+    addMessage({ author, message, chatId: id, id: uuidv4() });
 
-    if (id in chats) {
-      return chats[id].messageList.map(messId => messages[messId]);
-    }
-    return [];
-  }
-
-  addMessage = ({ author, message }) => {
-    const { id } = this.props.match.params;
-    console.log(this.props);
-    const newId = uuidv4();
-    this.setState(({ chats, messages }) => ({
-      chats: {
-        ...chats,
-        [id]: { ...chats[id], messageList: [...chats[id].messageList, newId] },
-      },
-      messages: { ...messages, [newId]: { id: newId, author, message } },
-    }));
-  };
-
-  addChat = () => {
-    const newId = uuidv4();
-    this.setState(({ chats }) => ({
-      chats: { ...chats, [newId]: { id: newId, title: `Чат ${newId}`, messageList: [] } },
-    }));
   };
 
   render() {
@@ -68,18 +45,25 @@ class Chats extends Component {
 
     return (
       <Layout>
-        <MessageList messages={this.messages} />
-        <MessageField addMessage={this.addMessage} />
-        <button onClick={() => this.props.addMessage()}>add message</button>
+        <MessageList messages={messages} />
+        <MessageField addMessage={this.submitMessage} />
       </Layout>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  chats: state.chats.byIds,
-  messages: state.messages.byIds
-});
+const mapStateToProps = (state, ownProps) =>{
+  const {
+    match: {
+      params: { id },
+    },
+    chats,
+    messages,
+  } = ownProps;
+  return {
+    messages: getCurrentMessages(state, id)
+  }
+};
 
 const mapDispatchToProps = {
   addMessage,

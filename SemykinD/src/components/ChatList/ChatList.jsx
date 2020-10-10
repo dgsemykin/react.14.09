@@ -16,6 +16,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { addChatToState } from '../../actions/chatActions';
+import {getChatsList} from "../../selectors/chatsSelectors";
 
 const useStyles = makeStyles(theme => ({
   drawerPaper: {
@@ -45,7 +46,7 @@ const useStyles = makeStyles(theme => ({
 const ChatList = () => {
   const classes = useStyles();
 
-  const chats = useSelector(store => store.chats.byIds);
+  const chats = useSelector(getChatsList);
   const dispatch = useDispatch();
 
   const addChat = () => {
@@ -67,7 +68,7 @@ const ChatList = () => {
       </div>
       <Divider />
       <List>
-        {Object.values(chats).map(({ id, title }) => (
+        {chats.map(({ id, title }) => (
           <NavLink key={id} to={`/chats/${id}`} activeClassName={classes.active}>
             <ListItem button>
               <ListItemIcon>

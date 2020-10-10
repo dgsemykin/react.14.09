@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import TextField from '@material-ui/core/TextField';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Button from '@material-ui/core/Button';
@@ -24,6 +24,15 @@ class MessageField extends Component {
     author: 'User',
     message: '',
   };
+
+  inputRef = createRef();
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { current } = this.inputRef;
+    if (current) {
+      current.focus();
+    }
+  }
 
   onSubmit = e => {
     e.preventDefault();
@@ -55,6 +64,9 @@ class MessageField extends Component {
             autoComplete="off"
             onChange={this.onChange}
             value={message}
+            inputProps={{
+              ref: this.inputRef
+            }}
           />
           <Button
             type="submit"
